@@ -1,0 +1,142 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/RectangleArena.proto"
+
+WorldInfo {
+  title "AICAM - Stereo Camera Simulation"
+  basicTimeStep 32
+}
+
+Viewpoint {
+  orientation -0.4 0.8 0.4 1.3
+  position 0 -2.5 2.0
+}
+
+TexturedBackground {}
+TexturedBackgroundLight {}
+
+RectangleArena {
+  floorSize 4 4
+  floorTileSize 0.5 0.5
+  wallHeight 0.1
+}
+
+# Hộp hàng 1
+Solid {
+  translation 0 0.5 0.1
+  name "box1"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.4 0.1
+        roughness 0.6
+      }
+      geometry Box {
+        size 0.2 0.2 0.2
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.2 0.2 0.2
+  }
+}
+
+# Hộp hàng 2
+Solid {
+  translation 0.4 0.2 0.075
+  name "box2"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.2 0.6 0.8
+        roughness 0.6
+      }
+      geometry Box {
+        size 0.15 0.15 0.15
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.15 0.15 0.15
+  }
+}
+
+# Hộp hàng 3
+Solid {
+  translation -0.4 0.1 0.1
+  name "box3"
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.2 0.8 0.3
+        roughness 0.6
+      }
+      geometry Box {
+        size 0.25 0.2 0.2
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.25 0.2 0.2
+  }
+}
+
+# Robot rig gắn 2 camera stereo
+Robot {
+  translation 0 -1.0 0.5
+  name "stereo_rig"
+  controller "aicam_controller"
+  children [
+
+    # Thân rig ngang
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.15 0.15 0.15
+        roughness 0.4
+      }
+      geometry Box {
+        size 0.55 0.04 0.04
+      }
+    }
+
+    # Camera TRÁI — nghiêng vào 10°
+    Camera {
+      translation -0.25 0 0
+      rotation 0 0 1 0.1745
+      name "cam_left"
+      width 320
+      height 240
+      fieldOfView 1.0472
+      near 0.05
+      far 8
+    }
+
+    # Camera PHẢI — nghiêng vào 10°
+    Camera {
+      translation 0.25 0 0
+      rotation 0 0 1 -0.1745
+      name "cam_right"
+      width 320
+      height 240
+      fieldOfView 1.0472
+      near 0.05
+      far 8
+    }
+
+    # Chân đỡ đứng
+    Shape {
+      translation 0 0 -0.25
+      appearance PBRAppearance {
+        baseColor 0.3 0.3 0.3
+        roughness 0.8
+      }
+      geometry Cylinder {
+        height 0.5
+        radius 0.015
+      }
+    }
+
+  ]
+}
